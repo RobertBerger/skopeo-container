@@ -3,6 +3,8 @@ IMAGE_NAME=$1
 
 PUBLIC_PORT="1984"
 
+TAG="v0.2.0"
+
 if [ $# -lt 1 ];
 then
     echo "+ $0: Too few arguments!"

@@ -2,6 +2,8 @@ source ../container-name.sh
 IMAGE_NAME=$1
 NETWORK_INTERFACE=$2
 
+TAG="v0.2.0"
+
 PUBLIC_PORT="1984"
 
 if [ $# -lt 1 ];
