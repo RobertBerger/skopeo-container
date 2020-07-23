@@ -1,10 +1,7 @@
 source ../container-name.sh
 IMAGE_NAME=$1
-NETWORK_INTERFACE=$2
 
 TAG="v0.2.0"
-
-PUBLIC_PORT="1984"
 
 if [ $# -lt 1 ];
 then
@@ -35,16 +32,12 @@ docker ps -a
 # -l : ??? without it no root@1928719827
 # --cap-drop=all: drop all (root) capabilites
 
-# start ash shell - need to start redis manually
-#echo "+ ID=\$(docker run --cap-drop=all -t -i -d -p ${PUBLIC_PORT}:6379 ${IMAGE_NAME} ash -l)"
-#ID=$(docker run --cap-drop=all -t -i -d -p ${PUBLIC_PORT}:6379 ${IMAGE_NAME} ash -l)
-echo "+ ID=\$(docker run -t -i -d -p ${PUBLIC_PORT}:1883 ${IMAGE_NAME} ash -l)"
-ID=$(docker run -t -i -d -p ${PUBLIC_PORT}:1883 ${IMAGE_NAME} ash -l)
-
+# start ash shell
+echo "+ ID=\$(docker run -v ${PWD}/../../../:/workdir -t -i -d ${IMAGE_NAME} /bin/sh -l)"
+ID=$(docker run -v ${PWD}/../../../:/workdir -t -i -d ${IMAGE_NAME} /bin/sh -l)
 
 echo "+ ID ${ID}"
 
 # let's attach to it:
 echo "+ docker attach ${ID}"
 docker attach ${ID}
-
