@@ -1,6 +1,6 @@
 if [ "$#" -ne 1 ]; then
     echo "Usage:"
-    echo "./special_tag_push.sh <tag>"
+    echo "./special_tag_push.sh v1.1.0"
     exit
 fi
 
