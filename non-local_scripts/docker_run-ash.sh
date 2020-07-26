@@ -1,7 +1,8 @@
 source ../container-name.sh
 IMAGE_NAME=$1
 
-TAG="v1.1.0"
+# from container-name.sh
+#TAG="v1.1.0"
 
 if [ $# -lt 1 ];
 then
