@@ -21,7 +21,7 @@ RUN make binary-local-static DISABLE_CGO=1
 RUN /go/src/github.com/containers/skopeo/skopeo --version
 
 FROM alpine:3.12
-run apk add --no-cache ca-certificates
+run apk add --no-cache ca-certificates jq curl
 COPY --from=builder /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
 COPY --from=builder /go/src/github.com/containers/skopeo/default-policy.json /etc/containers/policy.json
 #ENTRYPOINT ["/usr/local/bin/skopeo"]
