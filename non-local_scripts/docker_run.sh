@@ -9,22 +9,21 @@ then
     echo "+ $0: Too few arguments!"
     echo "+ use something like:"
     echo "+ $0 <docker image>" 
-    echo "+ $0 reliableembeddedsystems/${CONTAINER_NAME}:${TAG}}"
+    echo "+ $0 reliableembeddedsystems/${CONTAINER_NAME}:${TAG}"
     exit
 fi
 
 # remove currently running containers
-echo "+ ID_TO_KILL=\$(docker ps -a -q  --filter ancestor=$1)"
+set -x
 ID_TO_KILL=$(docker ps -a -q  --filter ancestor=$1)
 
-echo "+ docker ps -a"
 docker ps -a
-echo "+ docker stop ${ID_TO_KILL}"
 docker stop ${ID_TO_KILL}
-echo "+ docker rm -f ${ID_TO_KILL}"
 docker rm -f ${ID_TO_KILL}
-echo "+ docker ps -a"
 docker ps -a
+
+# we need to pull latest version
+docker pull ${IMAGE_NAME}
 
 # -t : Allocate a pseudo-tty
 # -i : Keep STDIN open even if not attached
@@ -34,11 +33,8 @@ docker ps -a
 # --cap-drop=all: drop all (root) capabilites
 
 # start ash shell
-echo "+ ID=\$(docker run -v ${PWD}/../../../:/workdir -t -i -d ${IMAGE_NAME} /bin/sh -l)"
 ID=$(docker run -v ${PWD}/../../../:/workdir -t -i -d ${IMAGE_NAME} /bin/sh -l)
 
-echo "+ ID ${ID}"
-
 # let's attach to it:
-echo "+ docker attach ${ID}"
 docker attach ${ID}
+set +x
